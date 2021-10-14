@@ -29,7 +29,7 @@ const [state, setState] = useStateReducer({data: 'test'});
 ```typescript jsx
 const fetchMyData = async () => Promise.resolve(['test'])
 
-const [state, setState, {loading, failed}] = useStateReducer([], fetchMyData);
+const [state, setState, { loading, failed, error }] = useStateReducer([], fetchMyData);
 ```
 
 The above illustrates how we can fill in the state with data returned from a promise which often time is needed on
@@ -38,7 +38,7 @@ component mount. The same api is supported for setState:
 ```typescript jsx
 const fetchMyData = async () => Promise.resolve(['test'])
 
-const [state, setState] = useStateReducer([]);
+const [state, setState, { loading, failed, error }] = useStateReducer([]);
 
 setState(fetchMyData);
 ```
