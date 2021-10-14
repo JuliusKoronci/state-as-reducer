@@ -156,5 +156,5 @@ export const useStateReducer = <T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return [data, setState, { reset, error, failed, loading }];
+  return [Object.freeze(data), setState, { reset, error, failed, loading }];
 };

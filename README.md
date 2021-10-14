@@ -19,6 +19,7 @@ const [state, setState] = useStateReducer();
 ```setState```  - in this case wraps around dispatch and can be safely passed around. You will not encounter references
 to unmounted components. ```state``` by default will be undefined.
 
+With objects as intial state:
 ```typescript jsx
 const [state, setState] = useStateReducer({data: 'test'});
 ```
@@ -31,7 +32,7 @@ const fetchMyData = async () => Promise.resolve(['test'])
 const [state, setState, {loading, failed}] = useStateReducer([], fetchMyData);
 ```
 
-The above illustrates how we can fill in the state with data returns from a promise which often time is needed on
+The above illustrates how we can fill in the state with data returned from a promise which often time is needed on
 component mount. The same api is supported for setState:
 
 ```typescript jsx
