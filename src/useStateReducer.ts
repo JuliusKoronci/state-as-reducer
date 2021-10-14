@@ -1,5 +1,4 @@
 import { Reducer, useEffect, useReducer } from "react";
-import { isFunction } from "lodash";
 
 type Action<T> =
   | {
@@ -116,7 +115,7 @@ export const useStateReducer = <T>(
   };
 
   const setState = (newStateOrStateProducer: NewStateProducer<T>): void => {
-    if (!isFunction(newStateOrStateProducer)) {
+    if (typeof newStateOrStateProducer !== 'function') {
       dispatch({
         type: "REPLACE",
         payload: newStateOrStateProducer,
