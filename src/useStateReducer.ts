@@ -24,11 +24,13 @@ interface State<T> {
   failed: boolean;
   error: unknown;
 }
+
 type NewStateProducer<T> =
   | T
   | ((currentState: T | undefined) => T)
   | ((currentState: T | undefined) => Promise<T>)
   | (() => Promise<T>);
+
 type Producer<T> = () => Promise<T>;
 
 const reducer = <T>(state: State<T>, action: Action<T>): State<T> => {
@@ -75,7 +77,6 @@ const createInitialState = <T>(data?: T): State<T | undefined> => ({
   loading: false,
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useStateReducer = <T>(
   initialState?: T,
   producer?: Producer<T>
