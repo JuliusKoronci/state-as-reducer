@@ -78,7 +78,8 @@ const createInitialState = <T>(data?: T): State<T | undefined> => ({
 
 export const useStateReducer = <T>(
   initialState?: T,
-  producer?: Producer<T>
+  producer?: Producer<T>,
+  freeze: boolean = true
 ): [
   T | undefined,
   (dataOrProducer: NewStateProducer<T>) => void,
@@ -156,5 +157,5 @@ export const useStateReducer = <T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return [Object.freeze(data), setState, { reset, error, failed, loading }];
+  return [freeze? Object.freeze(data): data, setState, { reset, error, failed, loading }];
 };
