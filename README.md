@@ -59,8 +59,3 @@ const [state, setState, { reset }] = useStateReducer([]);
 
 reset();
 ```
-### Data freezing
-
-By default useStateReducer will freeze the returned data to enforce immutability, if this is not desired, you can disable it by passing in false as the third argument
-
-Reset will revert the state to the initial state passed in as the first argument to the hook.
