@@ -1,4 +1,4 @@
-import {Reducer, useEffect, useReducer} from "react";
+import {Reducer, useCallback, useEffect, useReducer} from "react";
 
 type Action<T> =
     | {
@@ -102,12 +102,14 @@ export function useStateReducer<T>(
         failed,
         loading
     }, dispatch] = useReducer<Reducer<State<T | undefined>, Action<T | undefined>>>(reducer, createInitialState(initialState));
-    const reset = () => {
+    
+    const reset = useCallback(() => {
         dispatch({
             type: "RESET",
             payload: initialState,
         });
-    };
+    }, [initialState]);
+    
     const updateStateAsync = async (getNewState?: Producer<T>) => {
         if (!getNewState) {
             return;
@@ -129,7 +131,7 @@ export function useStateReducer<T>(
         }
     };
 
-    const setState = (newStateOrStateProducer: NewStateProducer<T>): void => {
+    const setState = useCallback((newStateOrStateProducer: NewStateProducer<T>): void => {
         if (typeof newStateOrStateProducer !== 'function') {
             dispatch({
                 type: "REPLACE",
@@ -164,7 +166,7 @@ export function useStateReducer<T>(
             type: "REPLACE",
             payload: dataOrPromise,
         });
-    };
+    }, []);
 
     useEffect(() => {
         updateStateAsync(producer);
