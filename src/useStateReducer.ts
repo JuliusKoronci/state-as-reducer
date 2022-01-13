@@ -1,4 +1,4 @@
-import {Reducer, useCallback, useEffect, useReducer} from "react";
+import {Reducer, useCallback, useEffect, useMemo, useReducer} from "react";
 
 type Action<T> =
     | {
@@ -81,11 +81,11 @@ export function useStateReducer<T>(initialState: T, producer?: Producer<T>): [
         Pick<State<T>, "failed" | "loading" | "error"> & { reset: () => void }
 ]
 export function useStateReducer<T>(initialState: undefined, producer?: Producer<T>): [
-    undefined | T, (dataOrProducer: NewStateProducer<T>) => void,
+        undefined | T, (dataOrProducer: NewStateProducer<T>) => void,
         Pick<State<T>, "failed" | "loading" | "error"> & { reset: () => void }
 ]
 export function useStateReducer<T>(): [
-    undefined |T, (dataOrProducer: NewStateProducer<T>) => void,
+        undefined | T, (dataOrProducer: NewStateProducer<T>) => void,
         Pick<State<T>, "failed" | "loading" | "error"> & { reset: () => void }
 ]
 export function useStateReducer<T>(
@@ -102,14 +102,14 @@ export function useStateReducer<T>(
         failed,
         loading
     }, dispatch] = useReducer<Reducer<State<T | undefined>, Action<T | undefined>>>(reducer, createInitialState(initialState));
-    
+
     const reset = useCallback(() => {
         dispatch({
             type: "RESET",
             payload: initialState,
         });
-    }, []);
-    
+    }, [dispatch]);
+
     const updateStateAsync = async (getNewState?: Producer<T>) => {
         if (!getNewState) {
             return;
@@ -166,12 +166,16 @@ export function useStateReducer<T>(
             type: "REPLACE",
             payload: dataOrPromise,
         });
-    }, [data]);
+    }, [data, dispatch]);
 
     useEffect(() => {
         updateStateAsync(producer);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return [data, setState, {reset, error, failed, loading}];
+    const props = useMemo(() => ({
+        reset, error, failed, loading
+    }), [reset, error, failed, loading])
+
+    return [data, setState, props];
 };
