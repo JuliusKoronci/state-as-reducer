@@ -166,7 +166,7 @@ export function useStateReducer<T>(
             type: "REPLACE",
             payload: dataOrPromise,
         });
-    }, []);
+    }, [data]);
 
     useEffect(() => {
         updateStateAsync(producer);
