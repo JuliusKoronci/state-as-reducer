@@ -108,7 +108,7 @@ export function useStateReducer<T>(
             type: "RESET",
             payload: initialState,
         });
-    }, [initialState]);
+    }, []);
     
     const updateStateAsync = async (getNewState?: Producer<T>) => {
         if (!getNewState) {
